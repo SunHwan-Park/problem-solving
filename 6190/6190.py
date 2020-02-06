@@ -22,7 +22,35 @@ for tc in range(1, T+1):
         answer = -1
     print('#{} {}'.format(tc, answer))
 
+# ---------------------------------
+# 강사님 코드_단조증가 구별 함수 활용
+import sys
+sys.stdin = open('input.txt')
 
+def check(n):
+    n, r = n // 10, n % 10
+    while n != 0:
+        if n % 10 > r:
+            return False
+        n, r = n // 10, n % 10
+    
+    return True
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    numbers = list(map(int, input().split()))
+    result = -1
+
+    for i in range(N-1):
+        for j in range(i+1, N):
+            num = numbers[i] * numbers[j]
+            if check(num) and result < num:
+                result = num
+
+    print('#{} {}'.format(tc, result))
+
+# ------------------------------------------
 # 김태우님 코드
 T = int(input())
  
