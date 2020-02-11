@@ -2,23 +2,23 @@ w, h = list(map(int, input().split()))
 p, q = list(map(int, input().split()))
 t = int(input())
 
-t = t % (2*(max(w, h)))
-d = [1, -1]
+t_w = t % (2*w)
+t_h = t % (2*h)
 
 x_count = 0
-i = 0
-while x_count < t:
+d = 1
+while x_count < t_w:
     x_count += 1
-    p += d[i]
+    p += d
     if p in [w, 0]:
-        i = abs(i-1)
+        d *= -1
 
 y_count = 0
-j = 0
-while y_count < t:
+d = 1
+while y_count < t_h:
     y_count += 1
-    p += d[j]
+    q += d
     if q in [h, 0]:
-        i = abs(j-1)
+        d *= -1
 
 print(p, q)
