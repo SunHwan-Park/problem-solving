@@ -24,3 +24,31 @@ for _ in range(n):
             print(data[-1])
         except:
             print(-1)
+
+# -------------------------------
+# 강사님 코드
+import sys
+
+T = int(sys.stdin.readline())
+stack = []
+for _ in range(T):
+    D = sys.stdin.readline().split()
+    if D[0] == 'push':
+        stack.append(D[1])
+    elif D[0] == 'top':
+        if stack:
+            print(stack[-1])
+        else:
+            print(-1)
+    elif D[0] == 'size':
+        print(len(stack))
+    elif D[0] == 'pop':
+        if stack:
+            print(stack.pop())
+        else:
+            print(-1)
+    elif D[0] == 'empty':
+        if stack:
+            print(0)
+        else:
+            print(1)

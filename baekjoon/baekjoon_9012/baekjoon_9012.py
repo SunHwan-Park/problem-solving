@@ -1,31 +1,36 @@
 import sys
-
 T = int(sys.stdin.readline())
 for _ in range(T):
-    stack = []
     data = sys.stdin.readline().strip()
-    for _ in range(25):
-        try:
+    while True:
+        if '()' in data:
             data = data.replace('()', '')
-        except:
-            pass
+        else:
+            break
     if data:
         print('NO')
     else:
         print('YES')
 
+# ---------------------------------
+# 강사님 코드
+import sys
+T = int(sys.stdin.readline())
 
-
-
-    # if len(data)%2 != 0 or data[0] == ')' or data[-1] == '(':
-    #     print('No')
-    # else:
-    #     for i in range(len(data)):
-    #         if len(stack) == 0 or data[i] == stack[-1]:
-    #             stack.append(data[i])
-    #         else:
-    #             stack.pop()
-    #     if stack:
-    #         print('NO')
-    #     else:
-    #         print('YES')
+for _ in range(T):
+    D = list(sys.stdin.readline().strip())
+    stack = [] # stack을 숫자로 두고, 경우에 따라 더하기 빼기로 해도 가능!
+    for p in D:
+        if p == '(':
+            stack.append(p)
+        else:
+            if stack:
+                stack.pop()
+            else:
+                print('NO')
+                break
+    else: # break 안 만나고 for문 다 돌면 실행되는 경우!
+        if stack:
+            print('NO')
+        else:
+            print('YES')
