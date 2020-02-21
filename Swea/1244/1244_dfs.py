@@ -6,11 +6,11 @@ def change(numbers, two_nums, count):
         if max_num < int(''.join(temp)):
             max_num = int(''.join(temp))
         return
-    elif ''.join(numbers) < str(max_num)[:N - count]:
-        return
+    # elif ''.join(numbers) < str(max_num):
+    #     return
     else:
-        temp = numbers[:]
         for two_num in two_nums:
+            temp = numbers[:]
             temp[two_num[0]], temp[two_num[1]] = temp[two_num[1]], temp[two_num[0]]
             change(temp, two_nums, count-1)
     
@@ -26,7 +26,7 @@ for tc in range(1 ,T+1):
     count = int(count)
     N = len(numbers)
     
-    two_nums = list(combinations(list(range(len(numbers))), 2))
+    two_nums = list(combinations(list(range(N)), 2))
     max_num = 0
     change(numbers, two_nums, count)
     
