@@ -14,3 +14,4 @@ for tc in range(1, T+1):
             if sum(combi) == K:
                 count += 1
     print('#{} {}'.format(tc, count))
+    d
