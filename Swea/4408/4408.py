@@ -10,6 +10,9 @@ for tc in range(1, T+1):
         if d[0] <= d[1]:
             a = d[0]
             b = d[1]
+       	else:
+            b = d[0]
+            a = d[1]
         for i in range(a, b+1):
             V[i] += 1
     print('#{} {}'.format(tc, max(V)))
