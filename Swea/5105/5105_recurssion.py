@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('input2.txt')
 
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
@@ -15,7 +15,8 @@ def f(ci, cj, count):
                 f(ni, nj, count+1)
                 V[ni][nj] = 0
             elif M[ni][nj] == '3':
-                result = count
+                if count < result:
+                    result = count
                 return
                 
 T = int(input())
@@ -32,6 +33,9 @@ for tc in range(1, T+1):
             break
     V = [[0]*N for _ in range(N)]
     V[si][sj] = 1
-    result = 0
+    result = N*N + 1
     f(si, sj, 0)
-    print('#{} {}'.format(tc, result))
+    if result == N*N + 1:
+        print('#{} {}'.format(tc, 0))
+    else:
+        print('#{} {}'.format(tc, result))
