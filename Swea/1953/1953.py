@@ -1,57 +1,41 @@
 import sys
 sys.stdin = open('input.txt')
 
-def dfs(N, M, i, j, L):
-    if L == 0:
-        return
-    else:
-        psb_route.append((i, j))
-        if matrix[i][j] == 1:
-            if i != N-1 and matrix[i+1][j] in [1, 2, 4, 7] and (i+1, j) not in psb_route:
-                dfs(N, M, i+1, j, L-1)
-            if i != 0 and matrix[i-1][j] in [1, 2, 5, 6] and (i-1, j) not in psb_route:
-                dfs(N, M, i-1, j, L-1)
-            if j != M-1 and matrix[i][j+1] in [1, 3, 6, 7] and (i, j+1) not in psb_route:
-                dfs(N, M, i, j+1, L-1)
-            if j != 0 and matrix[i][j-1] in [1, 3, 4, 5] and (i, j-1) not in psb_route:
-                dfs(N, M, i, j-1, L-1)
-        elif matrix[i][j] == 2:
-            if i != N-1 and matrix[i+1][j] in [1, 2, 4, 7] and (i+1, j) not in psb_route:
-                dfs(N, M, i+1, j, L-1)
-            if i != 0 and matrix[i-1][j] in [1, 2, 5, 6] and (i-1, j) not in psb_route:
-                dfs(N, M, i-1, j, L-1)
-        elif matrix[i][j] == 3:
-            if j != M-1 and matrix[i][j+1] in [1, 3, 6, 7] and (i, j+1) not in psb_route:
-                dfs(N, M, i, j+1, L-1)
-            if j != 0 and matrix[i][j-1] in [1, 3, 4, 5] and (i, j-1) not in psb_route:
-                dfs(N, M, i, j-1, L-1)
-        elif matrix[i][j] == 4:
-            if i != 0 and matrix[i-1][j] in [1, 2, 5, 6] and (i-1, j) not in psb_route:
-                dfs(N, M, i-1, j, L-1)
-            if j != M-1 and matrix[i][j+1] in [1, 3, 6, 7] and (i, j+1) not in psb_route:
-                dfs(N, M, i, j+1, L-1)
-        elif matrix[i][j] == 5:
-            if i != N-1 and matrix[i+1][j] in [1, 2, 4, 7] and (i+1, j) not in psb_route:
-                dfs(N, M, i+1, j, L-1)
-            if j != M-1 and matrix[i][j+1] in [1, 3, 6, 7] and (i, j+1) not in psb_route:
-                dfs(N, M, i, j+1, L-1)
-        elif matrix[i][j] == 6:
-            if i != N-1 and matrix[i+1][j] in [1, 2, 4, 7] and (i+1, j) not in psb_route:
-                dfs(N, M, i+1, j, L-1)
-            if j != 0 and matrix[i][j-1] in [1, 3, 4, 5] and (i, j-1) not in psb_route:
-                dfs(N, M, i, j-1, L-1)
-        elif matrix[i][j] == 7:
-            if i != 0 and matrix[i-1][j] in [1, 2, 5, 6] and (i-1, j) not in psb_route:
-                dfs(N, M, i-1, j, L-1)
-            if j != 0 and matrix[i][j-1] in [1, 3, 4, 5] and (i, j-1) not in psb_route:
-                dfs(N, M, i, j-1, L-1)
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+pd = {
+    1: [0, 1, 2, 3],
+    2: [0, 2],
+    3: [1, 3],
+    4: [0, 1],
+    5: [1, 2],
+    6: [2, 3],
+    7: [3, 0]
+}    
 
 T = int(input())
 for tc in range(1, T+1):
     N, M, R, C, L = map(int, input().split())
     matrix = [list(map(int, input().split())) for _ in range(N)]
-
-    psb_route = []
-    dfs(N, M, R, C, L)
+    V = [[0]*M for _ in range(N)]
+    queue = [(R, C)]
+    V[R][C] = 1
     
-    print('#{} {}'.format(tc, len(psb_route)))
+    while queue:
+        CR, CC = queue.pop(0)
+        if V[CR][CC] >= L:
+            break
+        else:
+            for i in pd[matrix[CR][CC]]:
+                NR = CR + dx[i]
+                NC = CC + dy[i]
+                if 0 <= NR < N and 0 <= NC < M and V[NR][NC] == 0 and matrix[NR][NC] != 0 and (i + 2)%4 in pd[matrix[NR][NC]]:
+                    queue.append((NR, NC))
+                    V[NR][NC] = V[CR][CC] + 1
+
+    result = 0
+    for i in range(N):
+        for j in range(M):
+            if V[i][j] > 0:
+                result += 1
+    print('#{} {}'.format(tc, result))
