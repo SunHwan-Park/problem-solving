@@ -11,6 +11,7 @@ def remove(MM, W, H, i, j):
             ni, nj = i+d[k][0]*l, j+d[k][1]*l
             if 0 <= ni < H and 0 <= nj < W and MM[ni][nj] > 0:
                 remove(MM, W, H, ni, nj)
+                remove(MM, W, H, i, j)
 
 T = int(input())
 for tc in range(1, T+1):
