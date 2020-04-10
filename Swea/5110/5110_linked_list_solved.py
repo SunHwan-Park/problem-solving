@@ -82,37 +82,46 @@ class LinkedList:
 
 T = int(input())
 for tc in range(1, T+1):
-    N, M, K = map(int, input().split())
+    N, M = map(int, input().split())
     arr = list(map(int, input().split()))
     LL = LinkedList()
     for i in range(N):
         LL.append(Node(arr[i]))
-
-    insert_idx = M
-    for _ in range(K):
-        if insert_idx > LL.nodeCnt:
-            insert_idx = insert_idx % LL.nodeCnt
-            temp = LL.index(insert_idx)
-            LL.insert(insert_idx, Node(temp.prev.value + temp.value))
-            insert_idx += M
-        elif insert_idx == LL.nodeCnt:
-            temp = LL.index(insert_idx-1)
-            LL.insert(insert_idx, Node(temp.value))
-            insert_idx += M
+    
+    for _ in range(M-1):
+        arr = list(map(int, input().split()))
+        LL_tmp = LinkedList()
+        for i in range(len(arr)):
+            LL_tmp.append(Node(arr[i]))
+        
+        insert_idx = LL.nodeCnt
+        for i in range(LL.nodeCnt):
+            if LL.index(i).value > arr[0]:
+                insert_idx = i
+                break
+        
+        if insert_idx == LL.nodeCnt:
+            LL.tail.next = LL_tmp.head
+            LL_tmp.head.prev = LL.tail
+            LL.tail = LL_tmp.tail
+            LL.nodeCnt += len(arr)
+        elif insert_idx == 0:
+            LL_tmp.tail.next = LL.head
+            LL.head.prev = LL_tmp.tail
+            LL_tmp.tail = LL.tail
+            LL_tmp.nodeCnt += LL.nodeCnt
+            LL = LL_tmp
         else:
             temp = LL.index(insert_idx)
-            LL.insert(insert_idx, Node(temp.prev.value + temp.value))
-            insert_idx += M
+            temp.prev.next = LL_tmp.head
+            LL_tmp.head.prev = temp.prev
+            temp.prev = LL_tmp.tail
+            LL_tmp.tail.next = temp
+            LL.nodeCnt += len(arr)
 
-    for i in range(LL.nodeCnt):
-        print(LL.index(i).value, end=' ')
+    print('#{}'.format(tc), end=" ")
+    current = LL.tail
+    for _ in range(10):
+        print(current.value, end=" ")
+        current = current.prev
     print()
-
-    # print('#{}'.format(tc), end=' ')
-    # current = LL.tail
-    # for _ in range(10):
-    #     if current == None:
-    #         break
-    #     print(current.value, end=' ')
-    #     current = current.prev
-    # print()

@@ -82,37 +82,25 @@ class LinkedList:
 
 T = int(input())
 for tc in range(1, T+1):
-    N, M, K = map(int, input().split())
+    N, M = map(int, input().split())
     arr = list(map(int, input().split()))
     LL = LinkedList()
     for i in range(N):
         LL.append(Node(arr[i]))
+    
+    for _ in range(M-1):
+        arr = list(map(int, input().split()))
+        insert_idx = LL.nodeCnt
+        for i in range(LL.nodeCnt):
+            if LL.index(i).value > arr[0]:
+                insert_idx = i
+                break
+        for i in range(len(arr)):
+            LL.insert(insert_idx + i, Node(arr[i]))
 
-    insert_idx = M
-    for _ in range(K):
-        if insert_idx > LL.nodeCnt:
-            insert_idx = insert_idx % LL.nodeCnt
-            temp = LL.index(insert_idx)
-            LL.insert(insert_idx, Node(temp.prev.value + temp.value))
-            insert_idx += M
-        elif insert_idx == LL.nodeCnt:
-            temp = LL.index(insert_idx-1)
-            LL.insert(insert_idx, Node(temp.value))
-            insert_idx += M
-        else:
-            temp = LL.index(insert_idx)
-            LL.insert(insert_idx, Node(temp.prev.value + temp.value))
-            insert_idx += M
-
-    for i in range(LL.nodeCnt):
-        print(LL.index(i).value, end=' ')
+    print('#{}'.format(tc), end=" ")
+    current = LL.tail
+    for _ in range(10):
+        print(current.value, end=" ")
+        current = current.prev
     print()
-
-    # print('#{}'.format(tc), end=' ')
-    # current = LL.tail
-    # for _ in range(10):
-    #     if current == None:
-    #         break
-    #     print(current.value, end=' ')
-    #     current = current.prev
-    # print()
